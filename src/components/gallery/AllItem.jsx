@@ -1,24 +1,19 @@
-import {
-  DndContext,
-  KeyboardSensor,
-  PointerSensor,
-  closestCenter,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
+import { DndContext, KeyboardSensor, closestCenter, useSensor, useSensors } from '@dnd-kit/core';
 import {
   SortableContext,
   arrayMove,
   rectSortingStrategy,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
+import { SmartPointerSensor } from '../../helpers/SmartPointerSensor';
 import useGalleryContext from '../../hooks/useGallerycontext';
+import AddImage from './AddImage';
 import Item from './Item';
 
 export default function AllItem() {
   const { images, setImages } = useGalleryContext();
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(SmartPointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -26,12 +21,14 @@ export default function AllItem() {
 
   const handleDragEnd = (event) => {
     const { active, over } = event;
-    if (active.id !== over.id) {
-      setImages((items) => {
-        const oldIndex = items?.findIndex((item) => item?.id === active.id);
-        const newIndex = items?.findIndex((item) => item?.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
+    if (active && over) {
+      if (active?.id !== over?.id) {
+        setImages((items) => {
+          const oldIndex = items?.findIndex((item) => item?.id === active.id);
+          const newIndex = items?.findIndex((item) => item?.id === over.id);
+          return arrayMove(items, oldIndex, newIndex);
+        });
+      }
     }
   };
 
@@ -40,10 +37,11 @@ export default function AllItem() {
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={images} strategy={rectSortingStrategy}>
           {images?.map((item, index) => (
-            <Item item={item} index={index} key={item?.id} id={item?.id} />
+            <Item item={item} index={index} key={item?.id} />
           ))}
         </SortableContext>
       </DndContext>
+      <AddImage />
     </div>
   );
 }

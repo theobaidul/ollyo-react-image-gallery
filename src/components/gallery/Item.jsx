@@ -2,19 +2,23 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import useGalleryContext from '../../hooks/useGallerycontext';
 
-export default function Item({ item, index, id }) {
-  const { images, setImages } = useGalleryContext();
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
+export default function Item({ item, index }) {
+  const { setImages } = useGalleryContext();
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
+    id: item?.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-  const handleSelect = (id) => {
+  const handleSelect = () => {
     setImages((prevState) =>
-      prevState?.map((item) => {
-        return item?.id === id ? { ...item, isSelected: !item?.isSelected } : item;
+      prevState?.map((currectItem) => {
+        return currectItem?.id === item?.id
+          ? { ...currectItem, isSelected: !currectItem?.isSelected }
+          : currectItem;
       })
     );
   };
@@ -23,7 +27,8 @@ export default function Item({ item, index, id }) {
     <div
       ref={setNodeRef}
       style={style}
-      {...(images?.length - 1 !== index ? { ...attributes, ...listeners } : {})}
+      {...attributes}
+      {...listeners}
       className={`relative group rounded-lg ${index === 0 ? 'row-span-2 col-span-2' : ''} ${
         item?.isSelected ? 'bg-slate-100' : ''
       }`}
@@ -40,7 +45,7 @@ export default function Item({ item, index, id }) {
         type="checkbox"
         className="absolute top-2 left-2 h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded-xl cursor-pointer"
         checked={Boolean(item?.isSelected)}
-        onChange={() => handleSelect(item?.id)}
+        onChange={handleSelect}
       />
     </div>
   );

@@ -30,7 +30,10 @@ export default function Header() {
             </label>
           </div>
           <div>
-            <button className="px-4 py-2 bg-red-500 text-white rounded-lg" onClick={deleteHandler}>
+            <button
+              className="px-4  py-1 font-semibold border border-red-600 text-red-600 hover:text-white hover:bg-red-600 rounded-lg duration-300"
+              onClick={deleteHandler}
+            >
               Delete Files
             </button>
           </div>
