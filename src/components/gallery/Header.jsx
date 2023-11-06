@@ -16,8 +16,8 @@ export default function Header() {
   return (
     <>
       {numSelectedImage > 0 ? (
-        <div className="px-10 py-2.5 flex justify-between">
-          <div className="flex items-center">
+        <div className="px-10 py-2.5 flex justify-between items-center">
+          <div className="flex items-center py-2">
             <input
               type="checkbox"
               id="myCheckbox"
@@ -26,12 +26,14 @@ export default function Header() {
               onChange={handleAllUnCheck}
             />
             <label htmlFor="myCheckbox" className="ml-2 text-lg font-semibold">
-              {numSelectedImage} Files selected
+              {numSelectedImage === 1
+                ? `${numSelectedImage} file selected`
+                : `${numSelectedImage} files selected`}
             </label>
           </div>
           <div>
             <button
-              className="px-4  py-1 font-semibold border border-red-600 text-red-600 hover:text-white hover:bg-red-600 rounded-lg duration-300"
+              className="px-4 py-1 font-semibold border border-red-600 text-red-600 hover:text-white hover:bg-red-600 rounded-lg duration-300"
               onClick={deleteHandler}
             >
               Delete Files
@@ -39,7 +41,9 @@ export default function Header() {
           </div>
         </div>
       ) : (
-        <div className="px-10 py-4 text-lg font-semibold">Gallery</div>
+        <div className="px-10 py-2.5 text-lg font-semibold">
+          <div className="flex items-center py-2">Gallery</div>
+        </div>
       )}
     </>
   );
