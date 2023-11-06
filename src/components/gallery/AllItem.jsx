@@ -4,7 +4,7 @@ import {
   KeyboardSensor,
   MeasuringStrategy,
   MouseSensor,
-  PointerSensor,
+  // PointerSensor,
   TouchSensor,
   closestCenter,
   useSensor,
@@ -29,12 +29,12 @@ export default function AllItem() {
   const dndRef = useRef(null);
 
   const sensors = useSensors(
-    useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
+    // useSensor(PointerSensor, { activationConstraint: { distance: 10 } }),
     useSensor(MouseSensor, {
       activationConstraint: { distance: 10 },
     }),
     useSensor(TouchSensor, {
-      activationConstraint: { delay: 250, tolerance: 5 },
+      activationConstraint: { delay: 150, tolerance: 5 },
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,

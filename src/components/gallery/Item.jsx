@@ -22,7 +22,7 @@ export default function Item({ item, index }) {
     transform: CSS.Transform.toString(transform),
     transition: transition,
     transformOrigin: '0 0',
-    touchAction: 'none',
+    // touchAction: 'none',
   };
 
   const handleSelect = () => {
